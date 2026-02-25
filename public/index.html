@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three-Body Edge Sandbox</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background: #000; 
+            color: #00ffff; 
+            font-family: 'Courier New', monospace; 
+            width: 100vw;   /* 🚨 新增：强制宽度 100% */ 
+            height: 100vh;  /* 🚨 新增：强制高度 100%，防止塌陷 */ 
+        }
+        #ui-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
+        .panel { background: rgba(0, 20, 40, 0.85); border: 1px solid #00ffff; padding: 15px; border-radius: 5px; pointer-events: auto; position: absolute; /* 🚨 确保是绝对定位 */ cursor: move; /* 🚨 提示用户可以拖动 */ overflow: auto; /* 🚨 内容过多时允许滚动 */ resize: both; /* 🚨 开启原生缩放手柄 */ min-width: 200px; min-height: 100px; box-shadow: 0 0 15px rgba(0, 255, 255, 0.2); }
+        #top-info { position: absolute; top: 20px; left: 20px; }
+        #bodyInfo { margin-top: 10px; font-size: 14px; color: #fff; }
+        #status { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); text-align: center; font-weight: bold; padding: 10px; }
+        .status-error { color: #ff0000; text-shadow: 0 0 10px #ff0000; background: rgba(50,0,0,0.8); border: 1px solid #ff0000;}
+        #intervention-panel { position: absolute; bottom: 20px; right: 20px; }
+        button { background: #004488; color: #00ffff; border: 1px solid #00ffff; padding: 8px 15px; margin: 5px; cursor: pointer; border-radius: 3px; }
+        button:hover { background: #0088ff; box-shadow: 0 0 10px #00ffff; color: #fff; }
+        
+        /* 🚨 移动端响应式布局 */ 
+        @media (max-width: 768px) { 
+            #top-info { 
+                top: 10px; left: 10px; right: 10px; 
+                font-size: 12px; padding: 10px; 
+            } 
+            #top-info h2 { font-size: 16px; margin-bottom: 5px; } 
+            #intervention-panel { 
+                bottom: 10px; left: 10px; right: 10px; 
+                display: flex; flex-direction: column; padding: 10px; 
+            } 
+            button { padding: 10px; font-size: 14px; width: 100%; margin: 5px 0; } 
+        }
+    </style>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="ui-layer">
+        <div id="top-info" class="panel">
+            <h2>三相演化沙盒 (Edge Node)</h2>
+            <div>纪元状态: <span id="era">加载中...</span></div>
+            <div>环境温度: <span id="temperature">-- K</span></div>
+            <div id="bodyInfo"></div>
+        </div>
+        <div id="status"></div>
+        <div id="intervention-panel" class="panel">
+            <h3 style="margin-top:0;">上帝视角干预</h3>
+            <button id="btn-shield">启动引力护盾 (Shield)</button>
+            <button id="btn-beacon">投放理智灯塔 (+20 Sanity)</button>
+            <div style="margin-top: 10px; border-top: 1px dashed #00ffff; padding-top: 10px;">
+                <label>时间流速: <span id="speed-tag">1x</span></label>
+                <input type="range" id="speed-slider" min="1" max="64" value="1" style="width: 100%;">
+            </div>
+        </div>
+    </div>
+    <script type="module" src="./main.js"></script>
+</body>
+</html>

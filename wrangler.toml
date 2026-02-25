@@ -1,0 +1,22 @@
+# --- FILE: c:\github\三体\wrangler.toml ---
+name = "santi-engine"
+main = "src/worker.ts"
+compatibility_date = "2026-02-24"
+
+# 绑定 Durable Objects
+[[durable_objects.bindings]]
+name = "CIVILIZATION_STATE"
+class_name = "LifeCycleManagerDO"
+
+# 🚨 核心修复点：为免费版开启 SQLite 支持
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["LifeCycleManagerDO"]
+
+# 绑定原生 AI
+[ai]
+binding = "AI"
+
+# 🚨 核心修复：使用原生 Assets 引擎，自动接管 HTML/JS 渲染
+[assets]
+directory = "./public"
